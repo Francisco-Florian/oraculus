@@ -60,3 +60,29 @@ let datas = [
       "image": "./img/capricorne.png"
     }
   ]
+
+  // appelle des données du tableau
+
+const amour = document.querySelector(`#amour`);
+const travail = document.querySelector(`#travail`);
+const argent = document.querySelector(`#argent`);
+const sante = document.querySelector(`#sante`);
+const famille = document.querySelector(`#famille`);
+const conseil = document.querySelector(`#conseil`);
+const signe = document.querySelector(`#signe`);
+
+for (let i = 0; i < datas.length; i++){
+  if (datas[i].signe == signe.textContent){
+    amour.innerHTML = datas[i].amour;
+    travail.innerHTML = datas[i].travail;
+    argent.innerHTML = datas[i].argent;
+    sante.innerHTML = datas[i].sante;
+    famille.innerHTML = datas[i].famille;
+    conseil.innerHTML = datas[i].conseil;
+  }
+}
+
+
+// integrer la date du jour
+
+const date = document.querySelector(`#datejour`);
