@@ -86,3 +86,10 @@ for (let i = 0; i < datas.length; i++){
 // integrer la date du jour
 
 const date = document.querySelector(`#datejour`);
+let actualDate = new Date().toLocaleDateString();
+date.innerHTML = `-- HOROSCOPE DU ${actualDate}`
+
+
+
+
+// changement de l'horoscope au clique sur les fleches
