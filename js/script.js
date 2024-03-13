@@ -70,6 +70,7 @@ const sante = document.querySelector(`#sante`);
 const famille = document.querySelector(`#famille`);
 const conseil = document.querySelector(`#conseil`);
 const signe = document.querySelector(`#signe`);
+const signeImg = document.querySelector(`#signeImg`);
 
 for (let i = 0; i < datas.length; i++){
   if (datas[i].signe == signe.textContent){
@@ -79,6 +80,7 @@ for (let i = 0; i < datas.length; i++){
     sante.innerHTML = datas[i].sante;
     famille.innerHTML = datas[i].famille;
     conseil.innerHTML = datas[i].conseil;
+    signeImg.src = datas[i].image;
   }
 }
 
@@ -91,5 +93,57 @@ date.innerHTML = `-- HOROSCOPE DU ${actualDate}`
 
 
 
-
 // changement de l'horoscope au clique sur les fleches
+
+const flecheGauche = document.querySelector(`.arrow-left`);
+const flecheDroite = document.querySelector(`.arrow-right`);
+
+flecheGauche.addEventListener(`click`, (e) => {
+  e.preventDefault();
+  
+  // Find the current sign's index in the datas array
+  let currentIndex = datas.findIndex(data => data.signe === signe.textContent);
+  
+  // Calculate the previous index (considering the array is circular)
+  let previousIndex = currentIndex - 1;
+  if (previousIndex < 0) {
+    previousIndex = datas.length - 1; // Go to the last element if currently at the first
+  }
+  
+  // Update the page content with the previous sign's information
+  const previousData = datas[previousIndex];
+  signe.textContent = previousData.signe;
+  amour.innerHTML = previousData.amour;
+  travail.innerHTML = previousData.travail;
+  argent.innerHTML = previousData.argent;
+  sante.innerHTML = previousData.sante;
+  famille.innerHTML = previousData.famille;
+  conseil.innerHTML = previousData.conseil;
+  signeImg.src = previousData.image;
+});
+
+
+
+flecheDroite.addEventListener(`click`, (e) => {
+  e.preventDefault();
+  
+  // Find the current sign's index in the datas array
+  let currentIndex = datas.findIndex(data => data.signe === signe.textContent);
+  
+  // Calculate the next index (considering the array is circular)
+  let nextIndex = currentIndex + 1;
+  if (nextIndex >= datas.length) {
+    nextIndex = 0; // Go to the first element if currently at the last
+  }
+  
+  // Update the page content with the next sign's information
+  const nextData = datas[nextIndex];
+  signe.textContent = nextData.signe;
+  amour.innerHTML = nextData.amour;
+  travail.innerHTML = nextData.travail;
+  argent.innerHTML = nextData.argent;
+  sante.innerHTML = nextData.sante;
+  famille.innerHTML = nextData.famille;
+  conseil.innerHTML = nextData.conseil;
+  signeImg.src = nextData.image;
+});
