@@ -72,15 +72,46 @@ const conseil = document.querySelector(`#conseil`);
 const signe = document.querySelector(`#signe`);
 const signeImg = document.querySelector(`#signeImg`);
 
+const leftHoroscope = document.querySelector(`.left-horoscope`);
+const leftHoroscopeSpan = document.querySelector(`#left-horoscope-span`);
+const rightHoroscope = document.querySelector(`.right-horoscope`);
+const rightHoroscopeSpan = document.querySelector(`#right-horoscope-span`);
+
+function TopArrowLeft() {
+
+  let currentIndex = datas.findIndex(data => data.signe === signe.textContent);
+
+  let previousIndex = currentIndex - 1;
+  if (previousIndex < 0) {
+    previousIndex = datas.length - 1; // Go to the last element if currently at the first
+  }
+  leftHoroscope.innerHTML = datas[previousIndex].signe + `<span>${datas[previousIndex].date}</span>`;
+}
+
+function TopArrowRight() {
+
+  let currentIndex = datas.findIndex(data => data.signe === signe.textContent);
+
+  let nextIndex = currentIndex + 1;
+  if (nextIndex >= datas.length) {
+    nextIndex = 0; 
+  }
+  rightHoroscope.innerHTML = datas[nextIndex].signe + `<span>${datas[nextIndex].date}</span>`;
+}
+
+
 for (let i = 0; i < datas.length; i++){
   if (datas[i].signe == signe.textContent){
-    amour.innerHTML = datas[i].amour;
-    travail.innerHTML = datas[i].travail;
-    argent.innerHTML = datas[i].argent;
-    sante.innerHTML = datas[i].sante;
-    famille.innerHTML = datas[i].famille;
-    conseil.innerHTML = datas[i].conseil;
+    amour.textContent = datas[i].amour;
+    travail.textContent = datas[i].travail;
+    argent.textContent = datas[i].argent;
+    sante.textContent = datas[i].sante;
+    famille.textContent = datas[i].famille;
+    conseil.textContent = datas[i].conseil;
     signeImg.src = datas[i].image;
+
+    TopArrowLeft();
+    TopArrowRight();
   }
 }
 
@@ -89,7 +120,7 @@ for (let i = 0; i < datas.length; i++){
 
 const date = document.querySelector(`#datejour`);
 let actualDate = new Date().toLocaleDateString();
-date.innerHTML = `-- HOROSCOPE DU ${actualDate}`
+date.textContent = `-- HOROSCOPE DU ${actualDate}`
 
 
 
@@ -98,52 +129,96 @@ date.innerHTML = `-- HOROSCOPE DU ${actualDate}`
 const flecheGauche = document.querySelector(`.arrow-left`);
 const flecheDroite = document.querySelector(`.arrow-right`);
 
+function arrowLeft() {
+  let currentIndex = datas.findIndex(data => data.signe === signe.textContent);
+  
+ 
+  let previousIndex = (currentIndex - 1 + datas.length) % datas.length;
+  
+ 
+  const previousData = datas[previousIndex];
+  signe.textContent = previousData.signe;
+  amour.textContent = previousData.amour;
+  travail.textContent = previousData.travail;
+  argent.textContent = previousData.argent;
+  sante.textContent = previousData.sante;
+  famille.textContent = previousData.famille;
+  conseil.textContent = previousData.conseil;
+  signeImg.src = previousData.image;
+}
+
+
 flecheGauche.addEventListener(`click`, (e) => {
   e.preventDefault();
   
-  // Find the current sign's index in the datas array
-  let currentIndex = datas.findIndex(data => data.signe === signe.textContent);
+  arrowLeft();
   
-  // Calculate the previous index (considering the array is circular)
-  let previousIndex = currentIndex - 1;
-  if (previousIndex < 0) {
-    previousIndex = datas.length - 1; // Go to the last element if currently at the first
-  }
-  
-  // Update the page content with the previous sign's information
-  const previousData = datas[previousIndex];
-  signe.textContent = previousData.signe;
-  amour.innerHTML = previousData.amour;
-  travail.innerHTML = previousData.travail;
-  argent.innerHTML = previousData.argent;
-  sante.innerHTML = previousData.sante;
-  famille.innerHTML = previousData.famille;
-  conseil.innerHTML = previousData.conseil;
-  signeImg.src = previousData.image;
+  TopArrowLeft();
+  TopArrowRight();
 });
 
+// ajouter le controle de la fleche gauche avec la fleche gauche du clavier
+document.addEventListener(`keydown`, (e) => {
+  if (e.key === `ArrowLeft`) {
+    arrowLeft();
+    TopArrowLeft();
+    TopArrowRight();
+  }
+});
 
+function arrowRight(){
+  let currentIndex = datas.findIndex(data => data.signe === signe.textContent);
+  
+  let nextIndex = (currentIndex + 1 + datas.length) % datas.length;
+
+  
+ 
+  const nextData = datas[nextIndex];
+  signe.textContent = nextData.signe;
+  amour.textContent = nextData.amour;
+  travail.textContent = nextData.travail;
+  argent.textContent = nextData.argent;
+  sante.textContent = nextData.sante;
+  famille.textContent = nextData.famille;
+  conseil.textContent = nextData.conseil;
+  signeImg.src = nextData.image;
+}
 
 flecheDroite.addEventListener(`click`, (e) => {
   e.preventDefault();
   
-  // Find the current sign's index in the datas array
-  let currentIndex = datas.findIndex(data => data.signe === signe.textContent);
   
-  // Calculate the next index (considering the array is circular)
-  let nextIndex = currentIndex + 1;
-  if (nextIndex >= datas.length) {
-    nextIndex = 0; // Go to the first element if currently at the last
+  arrowRight();
+  TopArrowLeft();
+  TopArrowRight();
+});
+
+document.addEventListener(`keydown`, (e) => {
+  if (e.key === `ArrowRight`) {
+    arrowLeft();
+    TopArrowLeft();
+    TopArrowRight();
   }
+});
+
+
+
+// changement de l'horoscope au clique sur les lien du menu
+
+
+leftHoroscope.addEventListener(`click`, (e) => {
+  e.preventDefault();
   
-  // Update the page content with the next sign's information
-  const nextData = datas[nextIndex];
-  signe.textContent = nextData.signe;
-  amour.innerHTML = nextData.amour;
-  travail.innerHTML = nextData.travail;
-  argent.innerHTML = nextData.argent;
-  sante.innerHTML = nextData.sante;
-  famille.innerHTML = nextData.famille;
-  conseil.innerHTML = nextData.conseil;
-  signeImg.src = nextData.image;
+  arrowLeft();
+  TopArrowLeft();
+  TopArrowRight();
+});
+
+
+rightHoroscope.addEventListener(`click`, (e) => {
+  e.preventDefault();
+  
+  arrowRight();
+  TopArrowLeft();
+  TopArrowRight();
 });
